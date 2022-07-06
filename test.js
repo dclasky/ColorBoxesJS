@@ -5,7 +5,10 @@ window.onload = function addBoxes() {
         let newDiv = document.createElement("div");
         newDiv.classList.add("box");
         newDiv.setAttribute('id', i)
-        newDiv.setAttribute('onmouseover', 'colorchange(' + i + ')')
+        // newDiv.setAttribute('onmouseenter', 'colorchange(' + i + ')')
+        newDiv.addEventListener("mouseenter", ()=>{
+            colorchange(i)
+        })
         document.getElementById("container").appendChild(newDiv);
     }
 }
@@ -19,14 +22,26 @@ function colorchange(boxId) {
     var g = Math.floor(Math.random() * 256);
     var b = Math.floor(Math.random() * 256);
     var a = 1.0;
-    document.getElementById(boxId).style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
+    const box = document.getElementById(boxId);
+    box.style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
 
-    setInterval(function decay() {
+    
+
+    const intervalID = setInterval(function decay() {
         //while (a > 0.0) {
         a = a - .01;
         //}
-        document.getElementById(boxId).style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
+        const box = document.getElementById(boxId)
+
+        box.style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
+        if (a <= 0) {
+            clearInterval(intervalID)
+        }
     }, 1);
+    if (box.dataset.fadeId) {
+        clearInterval(parseInt(box.dataset.fadeId))
+    }
+    box.dataset.fadeId = intervalID
 }
 
 
