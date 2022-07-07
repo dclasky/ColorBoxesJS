@@ -1,4 +1,3 @@
-
 //makes 400 boxes with class, id, event listener for onmousover, and puts them in the countainer div
 window.onload = function addBoxes() {
     for (let i = 0; i < 400; i++) {
@@ -15,20 +14,24 @@ window.onload = function addBoxes() {
 //NOTE:boxes that have been changed once flicker if moused over a second time
 
 function colorchange(boxId) {
+    let box = document.getElementById(boxId);
+
     var r = Math.floor(Math.random() * 256);
     var g = Math.floor(Math.random() * 256);
     var b = Math.floor(Math.random() * 256);
     var a = 1.0;
-    document.getElementById(boxId).style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
+    box.style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
 
-    setInterval(function decay() {
-        //while (a > 0.0) {
-        a = a - .01;
-        //}
-        document.getElementById(boxId).style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
-    }, 1);
+    let colordecay = setInterval(decay, 5);
+    colordecay;
+    function decay() {
+        if (a <= 0) {
+            clearInterval(colordecay);
+        }
+        else {
+            a = a - .01;
+            box.style.backgroundColor = ["rgba(", r, ",", g, ",", b, ",", a, ")"].join("");
+        }
+    }
+
 }
-
-
-//make squares have opacity
-//make their opacity fade
